@@ -1,0 +1,39 @@
+#compdef bug-report-clap-completion-when-help-contains-special-characters
+
+autoload -U is-at-least
+
+_bug-report-clap-completion-when-help-contains-special-characters() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'-w+[Press TAB on this flag to see the bug]:WEBSITE:((github\:"This documentation is contains a link to \[GitHub\](https://github.com). This link would not play well with shell completion"
+gitlab\:"This documentation is contains a link to \[GitLab\](https://gitlab.com). This link would not play well with shell completion"))' \
+'--website=[Press TAB on this flag to see the bug]:WEBSITE:((github\:"This documentation is contains a link to \[GitHub\](https://github.com). This link would not play well with shell completion"
+gitlab\:"This documentation is contains a link to \[GitLab\](https://gitlab.com). This link would not play well with shell completion"))' \
+'-c+[Generate completion for this program]:COMPLETION:(bash elvish fish powershell zsh)' \
+'--completion=[Generate completion for this program]:COMPLETION:(bash elvish fish powershell zsh)' \
+'-h[Print help (see more with '\''--help'\'')]' \
+'--help[Print help (see more with '\''--help'\'')]' \
+&& ret=0
+}
+
+(( $+functions[_bug-report-clap-completion-when-help-contains-special-characters_commands] )) ||
+_bug-report-clap-completion-when-help-contains-special-characters_commands() {
+    local commands; commands=()
+    _describe -t commands 'bug-report-clap-completion-when-help-contains-special-characters commands' commands "$@"
+}
+
+if [ "$funcstack[1]" = "_bug-report-clap-completion-when-help-contains-special-characters" ]; then
+    _bug-report-clap-completion-when-help-contains-special-characters "$@"
+else
+    compdef _bug-report-clap-completion-when-help-contains-special-characters bug-report-clap-completion-when-help-contains-special-characters
+fi
